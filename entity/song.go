@@ -5,7 +5,7 @@ import (
 )
 
 type Song struct {
-	ID        uint
+	ID        uint `gorm:"primaryKey"`
 	AlbumId   uint
 	Album     Album
 	Title     string `gorm:"type:varchar(255)"`
