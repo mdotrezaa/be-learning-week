@@ -40,7 +40,7 @@ func main() {
 	r.GET("/songs", productRequestHandler.GetSongs)          //Get All Song
 	r.GET("/songs/:id", productRequestHandler.GetSongDetail) // Get specific song by album id
 	r.POST("/songs", productRequestHandler.CreateSong)       // Add song
-	r.PUT("/songs/:id", productRequestHandler.UpdateSong)    // Add song
+	r.PUT("/songs/:id", productRequestHandler.UpdateSong)    // Edit song
 	r.DELETE("/songs/:id", productRequestHandler.DeleteSong) // Delete song
 
 	userRequestHandler := albums.RequestHandler{
@@ -49,6 +49,7 @@ func main() {
 	r.GET("/albums", userRequestHandler.GetAlbums)           //Get All Album
 	r.GET("/albums/:id", userRequestHandler.GetAlbumsDetail) // Get Album Detail
 	r.POST("/albums", userRequestHandler.CreateAlbum)        // Add Album
+	r.PUT("/albums/:id", userRequestHandler.UpdateAlbum)     // Edit Album
 	r.DELETE("/albums/:id", userRequestHandler.DeleteAlbum)  // Add Album
 
 	r.Run()

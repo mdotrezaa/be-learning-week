@@ -35,7 +35,7 @@ func (h RequestHandler) GetSongDetail(c *gin.Context) {
 	var songs []entity.Song
 	id := c.Params.ByName("id")
 	if err := h.DB.Where("album_id = ?", id).First(&songs).Error; err != nil {
-		c.JSON(http.StatusBadRequest, dto.Response{Message: "album not found"})
+		c.JSON(http.StatusBadRequest, dto.Response{Message: "song not found"})
 		return
 	}
 
@@ -60,6 +60,7 @@ func (h RequestHandler) CreateSong(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, dto.Response{Message: "invalid payload"})
 		return
 	}
+
 	p.CreatedAt = time.Now()
 	p.UpdatedAt = time.Now()
 

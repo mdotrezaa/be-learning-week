@@ -1,21 +1,34 @@
 package albums
 
 import (
+	"time"
+
 	"github.com/mdotrezaa/be-learning-week/entity"
 )
 
+type AlbumsData struct {
+	ID        int64     `json:"id"`
+	Name      string    `json:"name"`
+	Year      uint      `json:"year"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+}
 type AlbumData struct {
-	ID    uint       `json:"id"`
-	Name  string     `json:"name"`
-	Songs []SongData `json:"songs"`
-	Year  uint       `json:"year"`
+	ID        int64      `json:"id"`
+	Name      string     `json:"name"`
+	Songs     []SongData `json:"songs"`
+	Year      uint       `json:"year"`
+	CreatedAt time.Time  `json:"createdAt"`
+	UpdatedAt time.Time  `json:"updatedAt"`
 }
 
 type SongData struct {
-	ID      uint   `json:"id"`
-	AlbumId uint   `json:"albumId"`
-	Title   string `json:"title"`
-	Author  string `json:"author"`
+	ID        uint      `json:"id"`
+	AlbumId   uint      `json:"albumId"`
+	Title     string    `json:"title"`
+	Author    string    `json:"author"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 func NewSongList(songs []entity.Song) []SongData {

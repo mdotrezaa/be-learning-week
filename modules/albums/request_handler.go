@@ -18,13 +18,12 @@ func (h RequestHandler) GetAlbums(c *gin.Context) {
 	var album []entity.Album
 	h.DB.Preload("Album").Find(&album)
 
-	p := make([]AlbumData, len(album))
+	p := make([]AlbumsData, len(album))
 	for i, album := range album {
-		p[i] = AlbumData{
-			ID:    album.ID,
-			Name:  album.Name,
-			Songs: NewSongList(album.Songs),
-			Year:  album.Year,
+		p[i] = AlbumsData{
+			ID:   album.ID,
+			Name: album.Name,
+			Year: album.Year,
 		}
 	}
 
@@ -76,4 +75,16 @@ func (h RequestHandler) DeleteAlbum(c *gin.Context) {
 	h.DB.Delete(p, id)
 
 	c.JSON(http.StatusOK, dto.Response{Message: "Album Deleted", Data: true})
+}
+func (h RequestHandler) UpdateAlbum(c *gin.Context) {
+	var p entity.Album
+	id := c.Params.ByName("id")
+
+	if err := h.DB.Where("id = ?", id).First(&p).Error; err != nil {
+		c.JSON(http.StatusBadRequest, dto.Response{Message: "data not found"})
+		return
+	}
+	c.BindJSON(&p)
+	h.DB.Save(&p)
+	c.JSON(http.StatusOK, dto.Response{Message: "success", Data: p})
 }
