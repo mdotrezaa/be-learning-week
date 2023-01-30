@@ -1,6 +1,6 @@
 # be-learning-week
 1. Create Database "learning-week"
-2. `run main.go`
+2. `go run main.go`
 
 
 # DDL
