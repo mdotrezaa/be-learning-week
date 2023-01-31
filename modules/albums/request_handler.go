@@ -2,7 +2,6 @@ package albums
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mdotrezaa/be-learning-week/dto"
@@ -16,18 +15,9 @@ type RequestHandler struct {
 
 func (h RequestHandler) GetAlbums(c *gin.Context) {
 	var album []entity.Album
-	h.DB.Preload("Album").Find(&album)
+	h.DB.Find(&album)
 
-	p := make([]AlbumsData, len(album))
-	for i, album := range album {
-		p[i] = AlbumsData{
-			ID:   album.ID,
-			Name: album.Name,
-			Year: album.Year,
-		}
-	}
-
-	c.JSON(http.StatusOK, dto.Response{Data: p})
+	c.JSON(http.StatusOK, gin.H{"data": album})
 }
 
 func (h RequestHandler) GetAlbumsDetail(c *gin.Context) {
@@ -51,17 +41,17 @@ func (h RequestHandler) GetAlbumsDetail(c *gin.Context) {
 }
 
 func (h RequestHandler) CreateAlbum(c *gin.Context) {
-	var p entity.Album
+	var p AlbumsDataInput
 	if err := c.Bind(&p); err != nil {
 		c.JSON(http.StatusBadRequest, dto.Response{Message: "invalid payload"})
 		return
 	}
-	p.CreatedAt = time.Now()
-	p.UpdatedAt = time.Now()
 
-	h.DB.Create(p)
+	album := entity.Album{Name: p.Name, Year: p.Year}
 
-	c.JSON(http.StatusOK, dto.Response{Message: "success", Data: p})
+	h.DB.Create(&album)
+
+	c.JSON(http.StatusOK, dto.Response{Message: "success", Data: album})
 }
 
 func (h RequestHandler) DeleteAlbum(c *gin.Context) {
@@ -81,7 +71,7 @@ func (h RequestHandler) UpdateAlbum(c *gin.Context) {
 	id := c.Params.ByName("id")
 
 	if err := h.DB.Where("id = ?", id).First(&p).Error; err != nil {
-		c.JSON(http.StatusBadRequest, dto.Response{Message: "data not found"})
+		c.JSON(http.StatusBadRequest, dto.Response{Message: "Record not found!"})
 		return
 	}
 	c.BindJSON(&p)

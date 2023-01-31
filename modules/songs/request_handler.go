@@ -2,7 +2,6 @@ package songs
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mdotrezaa/be-learning-week/dto"
@@ -55,25 +54,24 @@ func (h RequestHandler) GetSongDetail(c *gin.Context) {
 }
 
 func (h RequestHandler) CreateSong(c *gin.Context) {
-	var p entity.Song
+	var p SongsDataInput
 	if err := c.Bind(&p); err != nil {
 		c.JSON(http.StatusBadRequest, dto.Response{Message: "invalid payload"})
 		return
 	}
 
-	p.CreatedAt = time.Now()
-	p.UpdatedAt = time.Now()
+	song := entity.Song{Title: p.Title, Author: p.Author, AlbumId: p.AlbumId}
 
-	h.DB.Create(p)
+	h.DB.Create(&song)
 
-	c.JSON(http.StatusOK, dto.Response{Message: "success", Data: p})
+	c.JSON(http.StatusOK, dto.Response{Message: "success", Data: song})
 }
 func (h RequestHandler) UpdateSong(c *gin.Context) {
 	var p entity.Song
 	id := c.Params.ByName("id")
 
 	if err := h.DB.Where("id = ?", id).First(&p).Error; err != nil {
-		c.JSON(http.StatusBadRequest, dto.Response{Message: "data not found"})
+		c.JSON(http.StatusBadRequest, dto.Response{Message: "Record not found"})
 		return
 	}
 	c.BindJSON(&p)

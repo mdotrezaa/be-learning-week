@@ -6,15 +6,21 @@ import (
 	"github.com/mdotrezaa/be-learning-week/entity"
 )
 
+type AlbumsDataInput struct {
+	Name      string    `json:"name"`
+	Year      uint      `json:"year"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+}
 type AlbumsData struct {
-	ID        int64     `json:"id"`
+	ID        uint      `json:"id"`
 	Name      string    `json:"name"`
 	Year      uint      `json:"year"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 type AlbumData struct {
-	ID        int64      `json:"id"`
+	ID        uint       `json:"id"`
 	Name      string     `json:"name"`
 	Songs     []SongData `json:"songs"`
 	Year      uint       `json:"year"`
