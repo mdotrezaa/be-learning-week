@@ -31,10 +31,12 @@ func (h RequestHandler) GetAlbumsDetail(c *gin.Context) {
 	h.DB.Preload("Songs").First(&album, id)
 
 	albumData := AlbumData{
-		ID:    album.ID,
-		Name:  album.Name,
-		Songs: NewSongList(album.Songs),
-		Year:  album.Year,
+		ID:        album.ID,
+		Name:      album.Name,
+		Songs:     NewSongList(album.Songs),
+		Year:      album.Year,
+		CreatedAt: album.CreatedAt,
+		UpdatedAt: album.UpdatedAt,
 	}
 
 	c.JSON(http.StatusOK, dto.Response{Data: albumData})

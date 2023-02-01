@@ -33,10 +33,12 @@ func (h RequestHandler) GetSongDetail(c *gin.Context) {
 
 	for i, song := range songs {
 		p[i] = SongsData{
-			ID:      song.ID,
-			Title:   song.Title,
-			AlbumId: song.AlbumId,
-			Author:  song.Author,
+			ID:        song.ID,
+			Title:     song.Title,
+			AlbumId:   song.AlbumId,
+			Author:    song.Author,
+			CreatedAt: song.CreatedAt,
+			UpdatedAt: song.UpdatedAt,
 		}
 	}
 
