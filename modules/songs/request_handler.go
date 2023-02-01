@@ -14,20 +14,10 @@ type RequestHandler struct {
 }
 
 func (h RequestHandler) GetSongs(c *gin.Context) {
-	var songs []entity.Song
-	h.DB.Preload("Songs").Find(&songs)
+	var song []entity.Song
+	h.DB.Find(&song)
 
-	p := make([]SongsData, len(songs))
-	for i, song := range songs {
-		p[i] = SongsData{
-			ID:      song.ID,
-			Title:   song.Title,
-			AlbumId: song.AlbumId,
-			Author:  song.Author,
-		}
-	}
-
-	c.JSON(http.StatusOK, dto.Response{Data: p})
+	c.JSON(http.StatusOK, gin.H{"data": song})
 }
 
 func (h RequestHandler) GetSongDetail(c *gin.Context) {
@@ -66,6 +56,7 @@ func (h RequestHandler) CreateSong(c *gin.Context) {
 
 	c.JSON(http.StatusOK, dto.Response{Message: "success", Data: song})
 }
+
 func (h RequestHandler) UpdateSong(c *gin.Context) {
 	var p entity.Song
 	id := c.Params.ByName("id")
