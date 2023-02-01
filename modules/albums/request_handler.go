@@ -14,10 +14,23 @@ type RequestHandler struct {
 }
 
 func (h RequestHandler) GetAlbums(c *gin.Context) {
-	var album []entity.Album
-	h.DB.Find(&album)
+	var albums []entity.Album
 
-	c.JSON(http.StatusOK, gin.H{"data": album})
+	h.DB.Find(&albums)
+
+	var data []AlbumsData
+	for _, album := range albums {
+
+		data = append(data, AlbumsData{
+			ID:        album.ID,
+			Name:      album.Name,
+			Year:      album.Year,
+			CreatedAt: album.CreatedAt,
+			UpdatedAt: album.UpdatedAt,
+		})
+	}
+
+	c.JSON(http.StatusOK, dto.Response{Message: "success", Data: data})
 }
 
 func (h RequestHandler) GetAlbumsDetail(c *gin.Context) {
@@ -39,7 +52,7 @@ func (h RequestHandler) GetAlbumsDetail(c *gin.Context) {
 		UpdatedAt: album.UpdatedAt,
 	}
 
-	c.JSON(http.StatusOK, dto.Response{Data: albumData})
+	c.JSON(http.StatusOK, dto.Response{Message: "success", Data: albumData})
 }
 
 func (h RequestHandler) CreateAlbum(c *gin.Context) {
@@ -58,12 +71,14 @@ func (h RequestHandler) CreateAlbum(c *gin.Context) {
 
 func (h RequestHandler) DeleteAlbum(c *gin.Context) {
 	var p entity.Album
+	var song []entity.Song
 	id := c.Params.ByName("id")
 	if err := h.DB.Where("id = ?", id).First(&p).Error; err != nil {
-		c.JSON(http.StatusBadRequest, dto.Response{Message: "invalid id"})
+		c.JSON(http.StatusBadRequest, dto.Response{Message: "Album not found"})
 		return
 	}
 
+	h.DB.Where("album_id = ?", id).Delete(&song)
 	h.DB.Delete(p, id)
 
 	c.JSON(http.StatusOK, dto.Response{Message: "Album Deleted", Data: true})

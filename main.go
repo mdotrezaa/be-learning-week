@@ -50,7 +50,7 @@ func main() {
 	r.GET("/albums/:id", userRequestHandler.GetAlbumsDetail) // Get Album Detail
 	r.POST("/albums", userRequestHandler.CreateAlbum)        // Add Album
 	r.PUT("/albums/:id", userRequestHandler.UpdateAlbum)     // Edit Album
-	r.DELETE("/albums/:id", userRequestHandler.DeleteAlbum)  // Add Album
+	r.DELETE("/albums/:id", userRequestHandler.DeleteAlbum)  // Delete Album
 
 	r.Run()
 }

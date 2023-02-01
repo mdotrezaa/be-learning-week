@@ -17,7 +17,7 @@ func (h RequestHandler) GetSongs(c *gin.Context) {
 	var song []entity.Song
 	h.DB.Find(&song)
 
-	c.JSON(http.StatusOK, gin.H{"data": song})
+	c.JSON(http.StatusOK, dto.Response{Data: song, Message: "success"})
 }
 
 func (h RequestHandler) GetSongDetail(c *gin.Context) {
@@ -42,7 +42,7 @@ func (h RequestHandler) GetSongDetail(c *gin.Context) {
 		}
 	}
 
-	c.JSON(http.StatusOK, dto.Response{Data: p})
+	c.JSON(http.StatusOK, dto.Response{Message: "success", Data: p})
 }
 
 func (h RequestHandler) CreateSong(c *gin.Context) {
