@@ -5,7 +5,7 @@ import (
 )
 
 type SongsData struct {
-	ID        uint      `json:"id" gorm:"primaryKey";auto_increment;`
+	ID        uint      `json:"id" gorm:"primaryKey"`
 	Title     string    `json:"title"`
 	Author    string    `json:"author"`
 	AlbumId   uint      `json:"albumId"`

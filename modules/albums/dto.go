@@ -12,13 +12,6 @@ type AlbumsDataInput struct {
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }
-type AlbumsData struct {
-	ID        uint      `json:"id"`
-	Name      string    `json:"name"`
-	Year      uint      `json:"year"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
-}
 type AlbumData struct {
 	ID        uint       `json:"id"`
 	Name      string     `json:"name"`
